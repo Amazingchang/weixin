@@ -1,21 +1,23 @@
 package me.changjie.util;
 
-import com.thoughtworks.xstream.XStream;
-import me.changjie.common.Constant;
-import me.changjie.common.MessageType;
-import me.changjie.domain.TextMessage;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
+import com.thoughtworks.xstream.XStream;
+
+import me.changjie.common.Constant;
+import me.changjie.domain.TextMessage;
 
 /**
  * Created by ChangJie on 2017/7/13.
@@ -83,13 +85,18 @@ public class MessageUtil
 
     }
 
-    public static String initText(String fromUserName, String toUserName, String content){
+    public static String initText(String fromUserName, String toUserName, String msgType, String content){
+        return initText(fromUserName, toUserName, msgType, content, null);
+    }
+
+    public static String initText(String fromUserName, String toUserName, String msgType, String content, String picUrl){
         TextMessage textMessage = new TextMessage();
         textMessage.setFromUserName(toUserName);
         textMessage.setToUserName(fromUserName);
-        textMessage.setMsgType(MessageType.MESSAGE_TEXT);
+        textMessage.setMsgType(msgType);
         textMessage.setContent(content);
         textMessage.setCreateTime(String.valueOf(new Date().getTime()));
+        textMessage.setPicUrl(picUrl);
         return textMessageToXml(textMessage);
     }
 }

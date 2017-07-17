@@ -24,8 +24,15 @@ public class TextMessage implements Serializable
     /*文本消息内容*/
     private String Content;
 
+    /*图片url*/
+    private String PicUrl;
+
+    private String MediaId;
+
+
     /*消息id，64位整型*/
     private String MsgId;
+
 
     public String getToUserName()
     {
@@ -87,6 +94,26 @@ public class TextMessage implements Serializable
         MsgId = msgId;
     }
 
+    public String getPicUrl()
+    {
+        return PicUrl;
+    }
+
+    public void setPicUrl(String picUrl)
+    {
+        PicUrl = picUrl;
+    }
+
+    public String getMediaId()
+    {
+        return MediaId;
+    }
+
+    public void setMediaId(String mediaId)
+    {
+        MediaId = mediaId;
+    }
+
     @Override
     public String toString()
     {
@@ -96,6 +123,8 @@ public class TextMessage implements Serializable
                 ", CreateTime='" + CreateTime + '\'' +
                 ", MsgType='" + MsgType + '\'' +
                 ", Content='" + Content + '\'' +
+                ", PicUrl='" + PicUrl + '\'' +
+                ", MediaId='" + MediaId + '\'' +
                 ", MsgId='" + MsgId + '\'' +
                 '}';
     }

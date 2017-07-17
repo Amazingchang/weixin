@@ -1,23 +1,22 @@
 package me.changjie.servlet;
 
-import me.changjie.common.Constant;
-import me.changjie.common.MessageType;
-import me.changjie.domain.TextMessage;
-import me.changjie.util.MessageUtil;
-import org.dom4j.DocumentException;
+import java.io.IOException;
+import java.io.Writer;
+import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.security.MessageDigest;
-import java.util.Arrays;
-import java.util.Map;
+
 import org.dom4j.DocumentException;
+
+import me.changjie.common.Constant;
+import me.changjie.common.MessageType;
+import me.changjie.util.MessageUtil;
 
 
 /**
@@ -74,29 +73,36 @@ public class WeiXinServlet extends HttpServlet
             String toUserName = map.get("ToUserName");
             String msgType = map.get("MsgType");
             String content = map.get("Content");
+            String picUrl = map.get("PicUrl");
+
 
             //文本消息
             if(MessageType.MESSAGE_TEXT.equals(msgType)){
-                //请求内容为1
+                //内容为1
                 if(Constant.subscribe_1.equals(content))
                 {
-                    message = MessageUtil.initText(fromUserName, toUserName, Constant.menu_1);
+                    message = MessageUtil.initText(fromUserName, toUserName, MessageType.MESSAGE_TEXT, Constant.menu_1);
                 }
-                //请求内容为2
+                //内容为2
                 else if(Constant.subscribe_2.equals(content))
                 {
-                    message = MessageUtil.initText(fromUserName, toUserName, Constant.menu_2);
+                    message = MessageUtil.initText(fromUserName, toUserName, MessageType.MESSAGE_TEXT, Constant.menu_2);
                 }
-                //请求内容为?或？
+                //内容为?或？
                 else if(Constant.subscribe_3.equals(content) || Constant.subscribe_4.equals(content))
                 {
-                    message = MessageUtil.initText(fromUserName, toUserName, MessageUtil.menuText());
+                    message = MessageUtil.initText(fromUserName, toUserName, MessageType.MESSAGE_TEXT, MessageUtil.menuText());
                 }
-                //请求内容为其他
+                //内容为其他
                 else
                 {
-                    message = MessageUtil.initText(fromUserName, toUserName, content);
+                    message = MessageUtil.initText(fromUserName, toUserName, MessageType.MESSAGE_TEXT, content);
                 }
+            }
+            //图片消息
+            else if(MessageType.MESSAGE_IMAGE.equals(msgType))
+            {
+                message = MessageUtil.initText(fromUserName, toUserName, MessageType.MESSAGE_IMAGE, content, picUrl);
             }
             else if(MessageType.MESSAGE_EVENT.equals(msgType))
             {
@@ -104,7 +110,7 @@ public class WeiXinServlet extends HttpServlet
                 //关注
                 if(MessageType.MESSAGE_SUBSCRIBE.equals(eventType))
                 {
-                    message = MessageUtil.initText(fromUserName, toUserName, MessageUtil.menuText());
+                    message = MessageUtil.initText(fromUserName, toUserName, MessageType.MESSAGE_TEXT, MessageUtil.menuText());
                 }
 
             }

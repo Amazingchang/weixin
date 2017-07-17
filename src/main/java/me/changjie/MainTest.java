@@ -9,5 +9,8 @@ public class MainTest
     {
         String a = String.valueOf(null);
         System.out.println(a);
+
+        String b = null;
+        System.out.println(String.valueOf(b));//null
     }
 }
