@@ -29,6 +29,8 @@ public interface Constant
 
     String menu_2 = "输入内容不合法";
 
+    String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+
 
 
 
