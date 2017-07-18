@@ -16,6 +16,8 @@ import org.dom4j.DocumentException;
 
 import me.changjie.common.Constant;
 import me.changjie.common.MessageType;
+import me.changjie.util.ConvertUtil;
+import me.changjie.util.MessageInit;
 import me.changjie.util.MessageUtil;
 
 
@@ -68,49 +70,48 @@ public class WeiXinServlet extends HttpServlet
         String message = null;
         try
         {
-            Map<String,String> map = MessageUtil.xmlToMap(req);
+            Map<String,String> map = ConvertUtil.xmlToMap(req);
             String fromUserName = map.get("FromUserName");
             String toUserName = map.get("ToUserName");
             String msgType = map.get("MsgType");
-            String content = map.get("Content");
-            String picUrl = map.get("PicUrl");
-
 
             //文本消息
-            if(MessageType.MESSAGE_TEXT.equals(msgType)){
+            if(MessageType.TEXT.equals(msgType)){
+                String content = map.get("Content");
                 //内容为1
                 if(Constant.subscribe_1.equals(content))
                 {
-                    message = MessageUtil.initText(fromUserName, toUserName, MessageType.MESSAGE_TEXT, Constant.menu_1);
+                    message = MessageInit.initText(toUserName, fromUserName, Constant.menu_1);
                 }
                 //内容为2
                 else if(Constant.subscribe_2.equals(content))
                 {
-                    message = MessageUtil.initText(fromUserName, toUserName, MessageType.MESSAGE_TEXT, Constant.menu_2);
+                    message = MessageInit.initNewsMessage(toUserName, fromUserName);
                 }
                 //内容为?或？
                 else if(Constant.subscribe_3.equals(content) || Constant.subscribe_4.equals(content))
                 {
-                    message = MessageUtil.initText(fromUserName, toUserName, MessageType.MESSAGE_TEXT, MessageUtil.menuText());
+                    message = MessageInit.initText(toUserName, fromUserName, MessageUtil.menuText());
                 }
                 //内容为其他
                 else
                 {
-                    message = MessageUtil.initText(fromUserName, toUserName, MessageType.MESSAGE_TEXT, content);
+                    message = MessageInit.initText(toUserName, fromUserName, Constant.menu_2);
                 }
             }
             //图片消息
-            else if(MessageType.MESSAGE_IMAGE.equals(msgType))
+            else if(MessageType.IMAGE.equals(msgType))
             {
-                message = MessageUtil.initText(fromUserName, toUserName, MessageType.MESSAGE_IMAGE, content, picUrl);
+                String mediaId = map.get("MediaId");
+                message = MessageInit.initPicture(toUserName, fromUserName, mediaId);
             }
-            else if(MessageType.MESSAGE_EVENT.equals(msgType))
+            else if(MessageType.EVENT.equals(msgType))
             {
                 String eventType = map.get("Event");
                 //关注
-                if(MessageType.MESSAGE_SUBSCRIBE.equals(eventType))
+                if(MessageType.SUBSCRIBE.equals(eventType))
                 {
-                    message = MessageUtil.initText(fromUserName, toUserName, MessageType.MESSAGE_TEXT, MessageUtil.menuText());
+                    message = MessageInit.initText(toUserName, fromUserName, MessageUtil.menuText());
                 }
 
             }

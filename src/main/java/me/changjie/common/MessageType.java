@@ -5,27 +5,29 @@ package me.changjie.common;
  */
 public interface MessageType
 {
-    String MESSAGE_TEXT = "text";
+    String TEXT = "text";
 
-    String MESSAGE_IMAGE = "image";
+    String IMAGE = "image";
 
-    String MESSAGE_VOICE = "voice";
+    String VOICE = "voice";
 
-    String MESSAGE_VIDEO = "video";
+    String VIDEO = "video";
 
-    String MESSAGE_LINK = "link";
+    String LINK = "link";
 
-    String MESSAGE_LOCATION = "location";
+    String LOCATION = "location";
 
-    String MESSAGE_EVENT = "event";
+    String EVENT = "event";
 
-    String MESSAGE_SUBSCRIBE = "subscribe";
+    String SUBSCRIBE = "subscribe";
 
-    String MESSAGE_UNSUBSCRIBE = "unsubscribe";
+    String UNSUBSCRIBE = "unsubscribe";
 
-    String MESSAGE_CLICK = "CLICK";
+    String CLICK = "CLICK";
 
-    String MESSAGE_VIEW = "VIEW";
+    String VIEW = "VIEW";
+
+    String NEWS = "news";
 
 
 
