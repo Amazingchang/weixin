@@ -9,6 +9,8 @@ public interface MessageType
 
     String IMAGE = "image";
 
+    String MUSIC = "music";
+
     String VOICE = "voice";
 
     String VIDEO = "video";

@@ -15,10 +15,7 @@ import org.dom4j.io.SAXReader;
 
 import com.thoughtworks.xstream.XStream;
 
-import me.changjie.domain.ImageMessage;
-import me.changjie.domain.News;
-import me.changjie.domain.NewsMessage;
-import me.changjie.domain.TextMessage;
+import me.changjie.domain.message.*;
 
 /**
  * Created by ChangJie on 2017/7/18.
@@ -88,5 +85,17 @@ public class ConvertUtil
         xStream.alias("xml", newsMessage.getClass());
         xStream.alias("item", News.class);
         return xStream.toXML(newsMessage);
+    }
+
+    /**
+     * 音乐消息对象转换为xml
+     * 需要XStream依赖
+     * @param musicMessage
+     * @return
+     */
+    public static String musicMessageToXml(MusicMessage musicMessage){
+        XStream xStream = new XStream();
+        xStream.alias("xml", musicMessage.getClass());
+        return xStream.toXML(musicMessage);
     }
 }

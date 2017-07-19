@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import me.changjie.common.MessageType;
-import me.changjie.domain.*;
+import me.changjie.domain.message.*;
 
 /**
  * Created by ChangJie on 2017/7/18.
@@ -77,5 +77,32 @@ public class MessageInit
         newsMessage.setArticles(articles);
         newsMessage.setArticleCount(articles.size());
         return ConvertUtil.newsMessageToXml(newsMessage);
+    }
+
+
+    /**
+     * 音乐消息初始化
+     * @param fromUserName
+     * @param toUserName
+     * @return
+     */
+    public static String initMusicMessage(String fromUserName, String toUserName){
+        MusicMessage musicMessage = new MusicMessage();
+        musicMessage.setFromUserName(fromUserName);
+        musicMessage.setToUserName(toUserName);
+        musicMessage.setMsgType(MessageType.MUSIC);
+        musicMessage.setCreateTime(String.valueOf(new Date().getTime()));
+
+        Music music = new Music();
+        music.setTitle("天空之城");
+        music.setDescription("飞机飞过天空");
+        music.setMusicUrl("http://zvkzs5.natappfree.cc/mp3/lizhi.mp3");
+        music.setHQMusicUrl("http://zvkzs5.natappfree.cc/mp3/lizhi.mp3");
+        music.setThumbMediaId("nVXjcFy4c_49Ur_8mxKzkb3YA4sb0ueWnx608Psu5idtETjEWZZKalys_byEn2Kf");
+
+        musicMessage.setMusic(music);
+
+
+        return ConvertUtil.musicMessageToXml(musicMessage);
     }
 }

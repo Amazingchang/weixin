@@ -1,13 +1,16 @@
 package me.changjie.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import me.changjie.common.Constant;
-import me.changjie.domain.AccessToken;
-import me.changjie.util.HttpUtil;
+import java.io.IOException;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
+import com.alibaba.fastjson.JSONObject;
+
+import me.changjie.common.Constant;
+import me.changjie.domain.AccessToken;
+import me.changjie.util.HttpUtil;
+import me.changjie.util.MenuInit;
 
 /**
  * Created by ChangJie on 2017/7/18.
@@ -33,6 +36,23 @@ public class WeiXinController
             e.printStackTrace();
         }
         return accessToken;
+
+    }
+
+    @GetMapping(path = "createMenu")
+    public Object createMenu() throws IOException
+    {
+        String url = Constant.MENU_URL.replace("ACCESS_TOKEN", "x0-b-2F2mQcwek-rPMyPOqFcDZ-rABAQJzZdpfkHtglvapDWR8Q0wcMRiU0dYurq8GZLFXI8ViQPn73F3ncwp9z0DOHcirPolsaSARAc1Q30wLr_-HmoN5YG4Mx6Rk1KGQZfAJARBK");
+        String menu = JSONObject.toJSONString(MenuInit.initMenu());
+        JSONObject jsonObject = HttpUtil.doPostStr(url, menu);
+        String errcode = null;
+        if(jsonObject != null)
+        {
+            errcode = jsonObject.getString("errcode");
+
+        }
+        return errcode;
+
 
     }
 }

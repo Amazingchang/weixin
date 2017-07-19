@@ -88,8 +88,13 @@ public class WeiXinServlet extends HttpServlet
                 {
                     message = MessageInit.initNewsMessage(toUserName, fromUserName);
                 }
+                //内容为3
+                else if(Constant.subscribe_3.equals(content))
+                {
+                    message = MessageInit.initMusicMessage(toUserName, fromUserName);
+                }
                 //内容为?或？
-                else if(Constant.subscribe_3.equals(content) || Constant.subscribe_4.equals(content))
+                else if(Constant.subscribe_4.equals(content) || Constant.subscribe_5.equals(content))
                 {
                     message = MessageInit.initText(toUserName, fromUserName, MessageUtil.menuText());
                 }

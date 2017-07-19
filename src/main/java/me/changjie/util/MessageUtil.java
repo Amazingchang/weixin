@@ -10,6 +10,7 @@ public class MessageUtil
 
     public static String menuText(){
         StringBuffer sb = new StringBuffer();
+        sb.append(Constant.subscribe0);
         sb.append(Constant.subscribe1);
         sb.append(Constant.subscribe2);
         sb.append(Constant.subscribe3);
