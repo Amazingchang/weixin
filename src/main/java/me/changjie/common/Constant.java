@@ -17,7 +17,7 @@ public interface Constant
 
     String subscribe1 = "1. 主菜单介绍\n";
 
-    String subscribe2 = "2. 历史文章\n";
+    String subscribe2 = "2. 最新文章\n";
 
     String subscribe3 = "3. 听个歌吧\n\n";
 

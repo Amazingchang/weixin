@@ -89,10 +89,11 @@ public class WeiXinServlet extends HttpServlet
                 {
                     message = MessageInit.initText(toUserName, fromUserName, MessageUtil.menuText());
                 }
-                //内容为2 回复历史文章
+                //内容为2 回复最新文章
                 else if(Constant.subscribe_2.equals(content))
                 {
-                    message = MessageInit.initNewsMessage(toUserName, fromUserName);
+                    List<Article> list = getHistoryArticle(req, 1);
+                    message = MessageInit.initHistoryNewsMessage(toUserName, fromUserName, list);
                 }
                 //内容为3 返回音乐
                 else if(Constant.subscribe_3.equals(content))
@@ -138,8 +139,15 @@ public class WeiXinServlet extends HttpServlet
                     //历史文章
                     else if("21".equals(EventKey))
                     {
-                        List<Article> list = getHistoryArticle(req);
+                        List<Article> list = getHistoryArticle(req, 4);
                         message = MessageInit.initHistoryNewsMessage(toUserName, fromUserName, list);
+                    }
+                    //关于我
+                    else if("22".equals(EventKey))
+                    {
+                        StringBuffer sb = new StringBuffer();
+                        sb.append("93年的java小菜鸡\n");
+                        message = MessageInit.initText(toUserName, fromUserName, sb.toString());
                     }
                 }
                 //view 菜单
@@ -182,7 +190,7 @@ public class WeiXinServlet extends HttpServlet
      *
      * @return
      */
-    public List<Article> getHistoryArticle(HttpServletRequest request)
+    public List<Article> getHistoryArticle(HttpServletRequest request, Integer count)
     {
         ServletContext servletContext = request.getServletContext();
         ApplicationContext ac1 = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
@@ -191,7 +199,7 @@ public class WeiXinServlet extends HttpServlet
 //        ApplicationContext ac2 = WebApplicationContextUtils.getWebApplicationContext(ServletContext sc);
 //        ac2.getBean("beanId");
 
-        return weiXinController.getHistoryArticle();
+        return weiXinController.getHistoryArticle(count);
 
 
     }

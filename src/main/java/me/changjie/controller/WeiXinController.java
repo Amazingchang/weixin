@@ -19,6 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -46,12 +47,12 @@ public class WeiXinController
     private MongoTemplate mongoTemplate;
 
     @GetMapping(path = "getHistoryArticle")
-    public List<Article> getHistoryArticle()
+    public List<Article> getHistoryArticle(@RequestParam(value = "count", defaultValue = "4") Integer count)
     {
         Query query = new Query();
         //第一个参数从0开始,0表示第一页
         //只排序query.with(new Sort(new Sort.Order(Sort.Direction.DESC,"createdTime")));
-        Pageable pageableRequest = new PageRequest(0, 4, new Sort(new Sort.Order(Sort.Direction.DESC,"createdTime")));
+        Pageable pageableRequest = new PageRequest(0, count, new Sort(new Sort.Order(Sort.Direction.DESC,"createdTime")));
         query.with(pageableRequest);
         query.addCriteria(Criteria.where("status").is(0));
         return mongoTemplate.find(query, Article.class);
