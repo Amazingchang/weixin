@@ -3,7 +3,7 @@ package me.changjie.domain.menu;
 /**
  * Created by ChangJie on 2017/7/19.
  */
-public class ClickButton extends BaseButton
+public class ClickButton extends Button
 {
 
     /**

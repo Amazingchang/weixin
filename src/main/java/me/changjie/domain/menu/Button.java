@@ -3,7 +3,7 @@ package me.changjie.domain.menu;
 /**
  * Created by ChangJie on 2017/7/19.
  */
-public class BaseButton
+public class Button
 {
 
     /**
@@ -19,7 +19,7 @@ public class BaseButton
     /**
      * 二级菜单数组，个数应为1~5个
      */
-    private BaseButton[] sub_Base_button;
+    private Button[] sub_button;
 
     public String getName()
     {
@@ -31,14 +31,14 @@ public class BaseButton
         this.name = name;
     }
 
-    public BaseButton[] getSub_Base_button()
+    public Button[] getSub_button()
     {
-        return sub_Base_button;
+        return sub_button;
     }
 
-    public void setSub_Base_button(BaseButton[] sub_Base_button)
+    public void setSub_button(Button[] sub_button)
     {
-        this.sub_Base_button = sub_Base_button;
+        this.sub_button = sub_button;
     }
 
     public String getType()

@@ -22,7 +22,7 @@ public class WeiXinController
     public AccessToken getAccessToken()
     {
         AccessToken accessToken = new AccessToken();
-        String url = Constant.ACCESS_TOKEN_URL.replace("APPID", Constant.APPID).replace("APPSECRET", Constant.SECRET);
+        String url = Constant.ACCESS_TOKEN_URL.replace("APPID", Constant.APPID_TEST).replace("APPSECRET", Constant.SECRET_TETS);
         try {
 
             JSONObject jsonObject = HttpUtil.doGetStr(url);
@@ -42,7 +42,7 @@ public class WeiXinController
     @GetMapping(path = "createMenu")
     public Object createMenu() throws IOException
     {
-        String url = Constant.MENU_URL.replace("ACCESS_TOKEN", "x0-b-2F2mQcwek-rPMyPOqFcDZ-rABAQJzZdpfkHtglvapDWR8Q0wcMRiU0dYurq8GZLFXI8ViQPn73F3ncwp9z0DOHcirPolsaSARAc1Q30wLr_-HmoN5YG4Mx6Rk1KGQZfAJARBK");
+        String url = Constant.MENU_URL.replace("ACCESS_TOKEN", "BmEh8jUYdRbabtZv0gq8-gzTzmhITVNvZqBzNePNUeFo6udZG9We32VPceWn1D6LgGnCRavlCNPbHuetwI7ipt6742MMTG57T1-Zvske4lZ0fEvXSUSeTlExp3LnDsLWUBRhABAPWM");
         String menu = JSONObject.toJSONString(MenuInit.initMenu());
         JSONObject jsonObject = HttpUtil.doPostStr(url, menu);
         String errcode = null;

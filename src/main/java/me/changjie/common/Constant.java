@@ -9,6 +9,10 @@ public interface Constant
 
     String SECRET = "2558022380ff355f40124ce1ab2d5141";
 
+    String APPID_TEST = "wx8a00b920fa76cf13";
+
+    String SECRET_TETS = "4a3f55aa93b72c28983216c4126f3c46";
+
     String subscribe0 = "欢迎您的关注，请按照菜单提示进行操作:\n\n";
 
     String subscribe1 = "1. 课程介绍\n";

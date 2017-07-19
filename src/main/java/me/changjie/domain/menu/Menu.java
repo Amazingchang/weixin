@@ -6,14 +6,14 @@ package me.changjie.domain.menu;
 public class Menu
 {
 
-    private BaseButton[] button;
+    private Button[] button;
 
-    public BaseButton[] getButton()
+    public Button[] getButton()
     {
         return button;
     }
 
-    public void setButton(BaseButton[] button)
+    public void setButton(Button[] button)
     {
         this.button = button;
     }

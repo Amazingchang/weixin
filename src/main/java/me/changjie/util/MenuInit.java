@@ -1,6 +1,6 @@
 package me.changjie.util;
 
-import me.changjie.domain.menu.BaseButton;
+import me.changjie.domain.menu.Button;
 import me.changjie.domain.menu.ClickButton;
 import me.changjie.domain.menu.Menu;
 import me.changjie.domain.menu.ViewButton;
@@ -39,11 +39,11 @@ public class MenuInit
         button32.setType("location_select");
         button32.setKey("32");
 
-        BaseButton baseButton = new BaseButton();
-        baseButton.setName("菜单");
-        baseButton.setSub_Base_button(new BaseButton[]{button31,button32});
+        Button button = new Button();
+        button.setName("菜单");
+        button.setSub_button(new Button[]{button31,button32});
 
-        menu.setButton(new BaseButton[]{button11, button21, baseButton});
+        menu.setButton(new Button[]{button11, button21, button});
         return menu;
 
     }
