@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import me.changjie.common.MessageType;
+import me.changjie.domain.Article;
 import me.changjie.domain.message.*;
 
 /**
@@ -71,6 +72,37 @@ public class MessageInit
             news.setDescription("慕课网描述");
             news.setPicUrl("http://mmbiz.qpic.cn/mmbiz_jpg/fdqCXpnBKk2gJRE9q56Vk26OUr28DNhUUgr4BCodjU8rGgksw1eic8Lcwwds04WicBqEDJQc3FLxR7wVLHetJKOQ/0");
             news.setUrl("www.changjie.me");
+            articles.add(news);
+        }
+
+        newsMessage.setArticles(articles);
+        newsMessage.setArticleCount(articles.size());
+        return ConvertUtil.newsMessageToXml(newsMessage);
+    }
+
+    /**
+     * 历史图文
+     * @param fromUserName
+     * @param toUserName
+     * @param list
+     * @return
+     */
+    public static String initHistoryNewsMessage(String fromUserName, String toUserName, List<Article> list){
+        NewsMessage newsMessage = new NewsMessage();
+        newsMessage.setFromUserName(fromUserName);
+        newsMessage.setToUserName(toUserName);
+        newsMessage.setMsgType(MessageType.NEWS);
+        newsMessage.setCreateTime(String.valueOf(new Date().getTime()));
+
+
+        List<News> articles = new ArrayList<News>();
+        for(Article article : list)
+        {
+            News news = new News();
+            news.setTitle(article.getTitle());
+            news.setDescription(article.getCategory());
+            news.setPicUrl("http://mmbiz.qpic.cn/mmbiz_jpg/fdqCXpnBKk2gJRE9q56Vk26OUr28DNhUUgr4BCodjU8rGgksw1eic8Lcwwds04WicBqEDJQc3FLxR7wVLHetJKOQ/0");
+            news.setUrl("www.changjie.me/detail/" + article.getId());
             articles.add(news);
         }
 

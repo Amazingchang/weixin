@@ -29,6 +29,8 @@ public interface MessageType
 
     String VIEW = "VIEW";
 
+    String SCANCODE_PUSH = "scancode_push";
+
     String NEWS = "news";
 
 

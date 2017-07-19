@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.io.Writer;
 import java.security.MessageDigest;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,9 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.dom4j.DocumentException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import me.changjie.common.Constant;
 import me.changjie.common.MessageType;
+import me.changjie.controller.WeiXinController;
+import me.changjie.domain.Article;
 import me.changjie.util.ConvertUtil;
 import me.changjie.util.MessageInit;
 import me.changjie.util.MessageUtil;
@@ -78,30 +84,31 @@ public class WeiXinServlet extends HttpServlet
             //文本消息
             if(MessageType.TEXT.equals(msgType)){
                 String content = map.get("Content");
-                //内容为1
-                if(Constant.subscribe_1.equals(content))
+                //内容为1、?、？调出主菜单
+                if(Constant.subscribe_1.equals(content) || Constant.subscribe_4.equals(content) || Constant.subscribe_5.equals(content))
                 {
-                    message = MessageInit.initText(toUserName, fromUserName, Constant.menu_1);
+                    message = MessageInit.initText(toUserName, fromUserName, MessageUtil.menuText());
                 }
-                //内容为2
+                //内容为2 回复历史文章
                 else if(Constant.subscribe_2.equals(content))
                 {
                     message = MessageInit.initNewsMessage(toUserName, fromUserName);
                 }
-                //内容为3
+                //内容为3 返回音乐
                 else if(Constant.subscribe_3.equals(content))
                 {
                     message = MessageInit.initMusicMessage(toUserName, fromUserName);
                 }
-                //内容为?或？
-                else if(Constant.subscribe_4.equals(content) || Constant.subscribe_5.equals(content))
-                {
-                    message = MessageInit.initText(toUserName, fromUserName, MessageUtil.menuText());
-                }
                 //内容为其他
                 else
                 {
-                    message = MessageInit.initText(toUserName, fromUserName, Constant.menu_2);
+                    StringBuffer sb = new StringBuffer();
+                    sb.append(Constant.ERROR_MESSAGE);
+                    sb.append(Constant.subscribe1);
+                    sb.append(Constant.subscribe2);
+                    sb.append(Constant.subscribe3);
+                    sb.append(Constant.subscribe4);
+                    message = MessageInit.initText(toUserName, fromUserName, sb.toString());
                 }
             }
             //图片消息
@@ -110,6 +117,7 @@ public class WeiXinServlet extends HttpServlet
                 String mediaId = map.get("MediaId");
                 message = MessageInit.initPicture(toUserName, fromUserName, mediaId);
             }
+            //事件
             else if(MessageType.EVENT.equals(msgType))
             {
                 String eventType = map.get("Event");
@@ -118,7 +126,42 @@ public class WeiXinServlet extends HttpServlet
                 {
                     message = MessageInit.initText(toUserName, fromUserName, MessageUtil.menuText());
                 }
-
+                //click 菜单
+                else if(MessageType.CLICK.equals(eventType))
+                {
+                    String EventKey = map.get("EventKey");
+                    //点击主菜单
+                    if("1".equals(EventKey))
+                    {
+                        message = MessageInit.initText(toUserName, fromUserName, MessageUtil.menuText());
+                    }
+                    //历史文章
+                    else if("21".equals(EventKey))
+                    {
+                        List<Article> list = getHistoryArticle(req);
+                        message = MessageInit.initHistoryNewsMessage(toUserName, fromUserName, list);
+                    }
+                }
+                //view 菜单
+                else if(MessageType.VIEW.equals(eventType))
+                {
+                    String url = map.get("EventKey");
+                    message = MessageInit.initText(toUserName, fromUserName, url);
+                }
+                //扫码 菜单
+                else if(MessageType.SCANCODE_PUSH.equals(eventType))
+                {
+                    String key = map.get("EventKey");
+                    message = MessageInit.initText(toUserName, fromUserName, key);
+                }
+            }
+            else if(MessageType.LOCATION.equals(msgType))
+            {
+                String Label = map.get("Label");//西湖风景名胜区
+                String Location_X = map.get("Location_X");//30.230524
+                String Location_Y = map.get("Location_Y");//120.069588
+                String Scale = map.get("Scale");//16
+                message = MessageInit.initText(toUserName, fromUserName, Label);
             }
 
             System.out.println(message);
@@ -132,6 +175,24 @@ public class WeiXinServlet extends HttpServlet
         {
             writer.close();
         }
+
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<Article> getHistoryArticle(HttpServletRequest request)
+    {
+        ServletContext servletContext = request.getServletContext();
+        ApplicationContext ac1 = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
+        WeiXinController weiXinController = (WeiXinController) ac1.getBean("weiXinController");
+
+//        ApplicationContext ac2 = WebApplicationContextUtils.getWebApplicationContext(ServletContext sc);
+//        ac2.getBean("beanId");
+
+        return weiXinController.getHistoryArticle();
+
 
     }
 
